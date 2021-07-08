@@ -47,10 +47,17 @@ alias update="sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove -y"
 alias ins="sudo apt install -y"
 alias rem="sudo apt autoremove --purge"
 
+#### CHECKS ####
 # Check if antigen is installed. If not, download the script.
 if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
   mkdir -p "$HOME/.zsh"
   curl -L git.io/antigen > "$HOME/.zsh/antigen.zsh"
+  clear
+fi
+
+# Check if starship is installed. If not, download and install it.
+if ! command -v starship &>/dev/null; then
+  sh -c "$(curl -fsSL https://starship.rs/install.sh)"
   clear
 fi
 
@@ -61,11 +68,5 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 
 antigen apply
-
-# Check if starship is installed. If not, download and install it.
-if ! command -v starship &>/dev/null; then
-  sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-  clear
-fi
 
 eval "$(starship init zsh)"

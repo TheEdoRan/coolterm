@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-rm "$HOME/.zshrc"
-rm "$HOME/.config/starship.toml"
+rm "$HOME/.zshrc" 2>/dev/null
+rm "$HOME/.config/starship.toml" 2>/dev/null
 
 ln -sf "$(pwd)/dot_zshrc" "$HOME/.zshrc"
 ln -sf "$(pwd)/starship.toml" "$HOME/.config/starship.toml"

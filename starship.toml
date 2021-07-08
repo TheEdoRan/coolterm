@@ -1,0 +1,22 @@
+add_newline = false
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$status\
+$shell\
+$character
+"""
+
+[status]
+disabled = false
+symbol = "❌"
+map_symbol = true
+
+[directory]
+fish_style_pwd_dir_length = 1

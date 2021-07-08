@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+rm "$HOME/.zshrc"
+rm "$HOME/.config/starship.toml"
+
+ln -sf "$(pwd)/dot_zshrc" "$HOME/.zshrc"
+ln -sf "$(pwd)/starship.toml" "$HOME/.config/starship.toml"

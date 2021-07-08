@@ -62,4 +62,10 @@ antigen bundle zsh-users/zsh-autosuggestions
 
 antigen apply
 
+# Check if starship is installed. If not, download and install it.
+if ! command -v starship &>/dev/null; then
+  sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+  clear
+fi
+
 eval "$(starship init zsh)"

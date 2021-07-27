@@ -8,8 +8,8 @@ setopt histignorealldups sharehistory
 bindkey -e
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=10000
+SAVEHIST=10000
 HISTFILE=~/.zsh_history
 
 # Use modern completion system
@@ -64,6 +64,9 @@ alias rem="sudo apt autoremove --purge"
 
 GLOBALIAS_FILTER_VALUES=(ls la ll lla)
 
+# Lang
+export LANG=en_US.UTF-8
+
 # Colored man pages.
 export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;31m'
@@ -73,6 +76,9 @@ export LESS_TERMCAP_so=$'\E[01;47;34m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 export LESS=-r
+
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
 
 # PLUGINS
 source "$HOME/.zsh/antigen.zsh"

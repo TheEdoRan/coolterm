@@ -10,7 +10,6 @@ $git_state\
 $git_status\
 $status\
 $shell\
-$character
 """
 
 [status]

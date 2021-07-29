@@ -91,19 +91,42 @@ antigen bundle shrink-path
 
 antigen apply
 
+# git_branch_color() {
+#   local ref=$(git symbolic-ref --short HEAD 2> /dev/null)
+#   if [ -n "${ref}" ]; then
+#     if [ -n "$(git status --porcelain)" ]; then
+#       local gitstatuscolor='%F{red}'
+#     else
+#       local gitstatuscolor='%F{green}'
+#     fi
+#     echo "${gitstatuscolor} ${ref}"
+#   else
+#     echo ""
+#   fi
+# }
+
 git_branch_color() {
-  local ref=$(git symbolic-ref --short HEAD 2> /dev/null)
-  if [ -n "${ref}" ]; then
-    if [ -n "$(git status --porcelain)" ]; then
-      local gitstatuscolor='%F{red}'
-    else
-      local gitstatuscolor='%F{green}'
+    local message=""
+    local message_color="%F{green}"
+
+    local staged=$(git status --porcelain 2>/dev/null | grep -e "^M " -e "^A ")
+    local unstaged=$(git status --porcelain 2>/dev/null | grep -e "^ M" -e "^??")
+
+    if [[ -n ${staged} ]]; then
+        message_color="%F{yellow}"
+    elif [[ -n ${unstaged} ]]; then
+        message_color="%F{red}"
     fi
-    echo "${gitstatuscolor} ${ref}"
-  else
-    echo ""
-  fi
+
+    local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+    if [[ -n ${branch} ]]; then
+        message+="${message_color}${branch}%f"
+    fi
+
+    if [ ! -z ${message} ]; then
+      echo -n " ${message}%f"
+    fi
 }
 
 setopt prompt_subst
-PROMPT='%F{cyan}$(shrink_path -f)%F{none}$(git_branch_color)%F{none} $ '
+PROMPT='%F{cyan}$(shrink_path -f)$(git_branch_color) %F{magenta}$ '

@@ -87,7 +87,23 @@ antigen bundle command-not-found
 antigen bundle globalias
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle shrink-path
 
 antigen apply
 
-eval "$(starship init zsh)"
+git_branch_color() {
+  local ref=$(git symbolic-ref --short HEAD 2> /dev/null)
+  if [ -n "${ref}" ]; then
+    if [ -n "$(git status --porcelain)" ]; then
+      local gitstatuscolor='%F{red}'
+    else
+      local gitstatuscolor='%F{green}'
+    fi
+    echo "${gitstatuscolor} (${ref})"
+  else
+    echo ""
+  fi
+}
+
+setopt prompt_subst
+PROMPT='%F{cyan}$(shrink_path -f)%F{none}$(git_branch_color)%F{none} $ '

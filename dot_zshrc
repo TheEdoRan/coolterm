@@ -34,77 +34,7 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-#### CHECKS ####
-# Check if antigen is installed. If not, download the script.
-if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
-  mkdir -p "$HOME/.zsh"
-  curl -L git.io/antigen > "$HOME/.zsh/antigen.zsh"
-  clear
-fi
-
-# Check if starship is installed. If not, download and install it.
-if ! command -v starship &>/dev/null; then
-  sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-  clear
-fi
-
-
-# Aliases
-alias ls="ls --color=auto"
-alias la="ls -a --color=auto"
-alias ll="ls -l --color=auto"
-alias lla="ls -la --color=auto"
-alias vim="nvim"
-alias v="nvim"
-alias sv="sudoedit"
-alias _vim="/usr/bin/vim"
-alias update="sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove -y"
-alias ins="sudo apt install -y"
-alias rem="sudo apt autoremove --purge"
-
-GLOBALIAS_FILTER_VALUES=(ls la ll lla)
-
-# Lang
-export LANG=en_US.UTF-8
-
-# Colored man pages.
-export LESS_TERMCAP_mb=$'\E[01;31m'
-export LESS_TERMCAP_md=$'\E[01;31m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[01;47;34m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[01;32m'
-export LESS=-r
-
-bindkey "^[[1;5C" forward-word
-bindkey "^[[1;5D" backward-word
-
-# PLUGINS
-source "$HOME/.zsh/antigen.zsh"
-
-antigen bundle command-not-found
-antigen bundle globalias
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle shrink-path
-
-antigen apply
-
-# git_branch_color() {
-#   local ref=$(git symbolic-ref --short HEAD 2> /dev/null)
-#   if [ -n "${ref}" ]; then
-#     if [ -n "$(git status --porcelain)" ]; then
-#       local gitstatuscolor='%F{red}'
-#     else
-#       local gitstatuscolor='%F{green}'
-#     fi
-#     echo "${gitstatuscolor} ${ref}"
-#   else
-#     echo ""
-#   fi
-# }
-
+# Git 
 git_branch_color() {
     local message=""
     local message_color="%F{green}"
@@ -128,5 +58,62 @@ git_branch_color() {
     fi
 }
 
+#### CHECKS ####
+# Check if antigen is installed. If not, download the script.
+if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
+  mkdir -p "$HOME/.zsh"
+  curl -L git.io/antigen > "$HOME/.zsh/antigen.zsh"
+  clear
+fi
+
+# Check if starship is installed. If not, download and install it.
+if ! command -v starship &>/dev/null; then
+  sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+  clear
+fi
+
+# Aliases
+alias ls="ls --color=auto"
+alias la="ls -a --color=auto"
+alias ll="ls -l --color=auto"
+alias lla="ls -la --color=auto"
+alias vim="nvim"
+alias v="nvim"
+alias sv="sudoedit"
+alias _vim="/usr/bin/vim"
+alias update="sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove -y"
+alias ins="sudo apt install -y"
+alias rem="sudo apt autoremove --purge"
+
+GLOBALIAS_FILTER_VALUES=(ls la ll lla)
+
+# Lang
+export LANG=en_US.UTF-8
+
+# Colored man pages
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;47;34m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
+export LESS=-r
+
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
+# Plugins
+source "$HOME/.zsh/antigen.zsh"
+
+antigen bundle command-not-found
+antigen bundle globalias
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle shrink-path
+
+antigen apply
+
+# Setup prompt
 setopt prompt_subst
 PROMPT='%F{cyan}$(shrink_path -f)$(git_branch_color) %F{magenta}$ '

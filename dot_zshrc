@@ -99,7 +99,7 @@ git_branch_color() {
     else
       local gitstatuscolor='%F{green}'
     fi
-    echo "${gitstatuscolor} (${ref})"
+    echo "${gitstatuscolor} ${ref}"
   else
     echo ""
   fi

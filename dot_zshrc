@@ -65,12 +65,6 @@ if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
   clear
 fi
 
-# Check if starship is installed. If not, download and install it.
-if ! command -v starship &>/dev/null; then
-  sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-  clear
-fi
-
 # Aliases
 alias ls="ls --color=auto"
 alias la="ls -a --color=auto"

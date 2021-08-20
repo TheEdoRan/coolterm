@@ -18,6 +18,9 @@ HISTFILE=~/.zsh_history
 autoload -Uz compinit
 compinit
 
+# Enabling and setting git info var to be used in prompt config
+autoload -Uz vcs_info
+
 zstyle ':completion:*' menu select
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
@@ -29,33 +32,10 @@ zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
+zstyle ':vcs_info:*' enable git
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-
-# Git 
-git_branch_color() {
-    local message=""
-    local message_color="%F{green}"
-
-    local staged=$(git status --porcelain 2>/dev/null | grep -e "^M " -e "^A ")
-    local unstaged=$(git status --porcelain 2>/dev/null | grep -e "^ M" -e "^??")
-
-    if [[ -n ${staged} ]]; then
-        message_color="%F{yellow}"
-    elif [[ -n ${unstaged} ]]; then
-        message_color="%F{red}"
-    fi
-
-    local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    if [[ -n ${branch} ]]; then
-        message+="${message_color}${branch}%f"
-    fi
-
-    if [ ! -z ${message} ]; then
-      echo -n " ${message}%f"
-    fi
-}
 
 #### CHECKS ####
 # Check if antigen is installed. If not, download the script.
@@ -71,23 +51,14 @@ alias la="ls -a --color=auto"
 alias ll="ls -l --color=auto"
 alias lla="ls -la --color=auto"
 alias vim="nvim"
-alias v="nvim"
-alias sv="sudoedit"
 alias _vim="/usr/bin/vim"
-alias update="sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove -y"
-alias ins="sudo apt install -y"
-alias rem="sudo apt autoremove --purge"
+alias update="yay -Syu --noconfirm"
+alias ins="sudo pacman -S"
+alias rem="sudo pacman -Rns"
+alias yins="yay -S"
+alias yrem="yay -Rns"
 
 GLOBALIAS_FILTER_VALUES=(ls la ll lla)
-
-# VS Code
-export DONT_PROMPT_WSL_INSTALL=true
-
-# Lang
-export LANG=it_IT.UTF-8
-
-# Keyboard
-setxkbmap it
 
 # Colored man pages
 export LESS_TERMCAP_mb=$'\E[01;31m'
@@ -105,7 +76,6 @@ bindkey "^[[1;5D" backward-word
 # Plugins
 source "$HOME/.zsh/antigen.zsh"
 
-antigen bundle command-not-found
 antigen bundle globalias
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
@@ -113,6 +83,33 @@ antigen bundle shrink-path
 
 antigen apply
 
+# Git
+zstyle ':vcs_info:git*' formats "%b "
+
 # Setup prompt
 setopt prompt_subst
-PROMPT='%F{cyan}$(shrink_path -f)$(git_branch_color) %F{magenta}$%f '
+
+precmd() {
+  vcs_info
+  
+  PROMPT="%F{cyan}$(shrink_path -f) "
+
+  if [[ -n ${vcs_info_msg_0_} ]]; then
+    local gitstatus=$(git status --porcelain 2>/dev/null)
+    local color="%F{green}"
+
+    if [[ -n ${gitstatus} ]]; then
+      local staged=$(echo "${gitstatus}" | grep -e "^M " -e "^A ")
+
+      if [[ -n ${staged} ]]; then
+        color="%F{yellow}"
+      else
+        color="%F{red}"
+      fi
+    fi
+
+    PROMPT+="${color}${vcs_info_msg_0_}"
+  fi
+
+  PROMPT+="%F{magenta}$%f "
+}

@@ -77,7 +77,6 @@ bindkey "^[[1;5D" backward-word
 source "$HOME/.zsh/antigen.zsh"
 
 antigen bundle globalias
-antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle shrink-path
 
@@ -95,16 +94,16 @@ precmd() {
   PROMPT="%F{cyan}$(shrink_path -f) "
 
   if [[ -n ${vcs_info_msg_0_} ]]; then
-    local gitstatus=$(git status --porcelain 2>/dev/null)
-    local color="%F{green}"
+    local gs=$(git status 2>/dev/null)
+    local color=''
 
-    if [[ -n ${gitstatus} ]]; then
-      local staged=$(echo "${gitstatus}" | grep -e "^M " -e "^A ")
-
-      if [[ -n ${staged} ]]; then
-        color="%F{yellow}"
-      else
+    if [[ -n ${gs} ]]; then
+      if [[ ! $gs =~ "working tree clean" ]]; then
         color="%F{red}"
+      elif [[ $gs =~ "Your branch is ahead of" ]]; then
+        color="%F{yellow}"
+      elif [[ $gs =~ "nothing to commit" ]]; then
+        color="%F{green}"
       fi
     fi
 

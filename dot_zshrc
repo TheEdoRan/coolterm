@@ -64,6 +64,11 @@ alias gri="git rebase -i"
 
 GLOBALIAS_FILTER_VALUES=(ls la ll lla)
 
+# Export path on WSL platform
+if [[ "$(uname -r 2>/dev/null)" =~ "microsoft" ]]; then
+  export PATH="/mnt/c/Windows/:/mnt/c/Windows/system32/:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Users/Edoardo/AppData/Local/Programs/Microsoft VS Code/bin/:$PATH"
+fi
+
 # Colored man pages
 export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;31m'
@@ -74,7 +79,7 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 export LESS=-r
 
-# Fix shell
+# Fix shell bindings
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 bindkey  "^[[H"   beginning-of-line
@@ -84,16 +89,18 @@ bindkey  "^[[3~"  delete-char
 # Plugins
 source "$HOME/.zsh/antigen.zsh"
 
-antigen bundle globalias
 antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle globalias
+antigen bundle command-not-found
 antigen bundle shrink-path
 
 antigen apply
 
 # Git
 autoload -Uz vcs_info
-zstyle ':vcs_info:git*' formats "%b "
 zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git*' formats "%b "
 
 # Setup prompt
 setopt prompt_subst

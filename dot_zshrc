@@ -56,17 +56,24 @@ else
   alias lla='ls -lFA'
 fi
 
+OS_NAME="$(cat /etc/os-release 2>/dev/null | grep -e '^NAME=')"
+
+# Check if we're on Arch linux, set up aliases accordingly
+if [[ "${OS_NAME}" =~ "Arch Linux" ]]; then
+  alias update="sudo pacman -Fy; sudo pkgfile --update; yay -Syu --sudoloop --noconfirm; antigen update; nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'; echo 'Update completed :)'; sleep 2"
+  alias ins="sudo pacman -S"
+  alias rem="sudo pacman -Rns"
+  alias yins="yay -S"
+  alias yrem="yay -Rns"
+fi
+
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias v="nvim"
+alias sv="sudoedit"
 alias vim="nvim"
 alias _vim="/usr/bin/vim"
-alias update="sudo pacman -Fy; sudo pkgfile --update; yay -Syu --sudoloop --noconfirm; antigen update; nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'; echo 'Update completed :)'; sleep 2"
-alias ins="sudo pacman -S"
-alias rem="sudo pacman -Rns"
-alias yins="yay -S"
-alias yrem="yay -Rns"
 alias ga="git add"
 alias gd="git diff"
 alias gs="git status -s"
@@ -75,7 +82,7 @@ alias gl="git log --oneline"
 alias gp="git push"
 alias gri="git rebase -i"
 
-GLOBALIAS_FILTER_VALUES=(ls la ll lla)
+GLOBALIAS_FILTER_VALUES=(ls la ll lla z)
 
 # Export path on WSL platform
 if [[ "$(uname -r 2>/dev/null)" =~ "microsoft" ]]; then
@@ -92,6 +99,9 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 export LESS=-r
 
+# Editor
+export EDITOR="nvim"
+
 # Fix shell bindings
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
@@ -107,6 +117,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle globalias
 antigen bundle command-not-found
 antigen bundle shrink-path
+antigen bundle agkozak/zsh-z
 
 antigen apply
 

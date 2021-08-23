@@ -42,10 +42,11 @@ if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
 fi
 
 # Aliases
-alias ls="ls --color=auto"
-alias la="ls -a --color=auto"
-alias ll="ls -l --color=auto"
-alias lla="ls -la --color=auto"
+alias ls="exa --icons --git"
+alias la="exa --icons --git -a"
+alias ll="exa --icons --git -l"
+alias lla="exa --icons --git -la"
+alias _ls="/usr/bin/ls --color=auto"
 alias vim="nvim"
 alias _vim="/usr/bin/vim"
 alias update="sudo pacman -Fy; sudo pkgfile --update; yay -Syu --sudoloop --noconfirm; antigen update; nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'; echo 'Update completed :)'; sleep 2"

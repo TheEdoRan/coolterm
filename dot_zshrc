@@ -42,14 +42,24 @@ if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
 fi
 
 # Aliases
-alias ls="exa --icons --git"
-alias la="exa --icons --git -a"
-alias ll="exa --icons --git -l"
-alias lla="exa --icons --git -la"
-alias _ls="/usr/bin/ls --color=auto"
+# Check if exa is installed
+if command -v exa &>/dev/null; then
+  alias ls="exa --icons --git"
+  alias la="exa --icons --git -a"
+  alias ll="exa --icons --git -l"
+  alias lla="exa --icons --git -la"
+  alias _ls="/usr/bin/ls --color=auto"
+else
+  alias ls='ls --color=auto'
+  alias ll='ls -AlF'
+  alias la='ls -A'
+  alias lla='ls -lFA'
+fi
+
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+alias v="nvim"
 alias vim="nvim"
 alias _vim="/usr/bin/vim"
 alias update="sudo pacman -Fy; sudo pkgfile --update; yay -Syu --sudoloop --noconfirm; antigen update; nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'; echo 'Update completed :)'; sleep 2"

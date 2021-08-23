@@ -54,6 +54,13 @@ alias ins="sudo pacman -S"
 alias rem="sudo pacman -Rns"
 alias yins="yay -S"
 alias yrem="yay -Rns"
+alias ga="git add"
+alias gd="git diff"
+alias gs="git status -s"
+alias gc="git commit -m"
+alias gl="git log --oneline"
+alias gp="git push"
+alias gri="git rebase -i"
 
 GLOBALIAS_FILTER_VALUES=(ls la ll lla)
 
@@ -113,5 +120,5 @@ precmd() {
     PROMPT+="${color}${vcs_info_msg_0_}"
   fi
 
-  PROMPT+="%F{magenta}$%f "
+  PROMPT+="%F{magenta}❯%f "
 }

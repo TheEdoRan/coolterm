@@ -35,24 +35,24 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 #### CHECKS ####
 # Check if antigen is installed. If not, download the script.
 if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
-  mkdir -p "$HOME/.zsh"
-  curl -L git.io/antigen > "$HOME/.zsh/antigen.zsh"
-  clear
+	mkdir -p "$HOME/.zsh"
+	curl -L git.io/antigen > "$HOME/.zsh/antigen.zsh"
+	clear
 fi
 
 # Aliases
 # Check if exa is installed
 if command -v exa &>/dev/null; then
-  alias ls='exa --icons --git'
-  alias la='exa --icons --git -a'
-  alias ll='exa --icons --git -l'
-  alias lla='exa --icons --git -la'
-  alias _ls='/usr/bin/ls --color=auto'
+	alias ls='exa --icons --git'
+	alias la='exa --icons --git -a'
+	alias ll='exa --icons --git -l'
+	alias lla='exa --icons --git -la'
+	alias _ls='/usr/bin/ls --color=auto'
 else
-  alias ls='ls --color=auto'
-  alias ll='ls -AlF'
-  alias la='ls -A'
-  alias lla='ls -lFA'
+	alias ls='ls --color=auto'
+	alias ll='ls -AlF'
+	alias la='ls -A'
+	alias lla='ls -lFA'
 fi
 
 OS="$(uname)"
@@ -65,11 +65,11 @@ case "$OS" in
 		DISTRO="$(cat /etc/os-release 2>/dev/null | grep -e '^NAME=')"
 
 		if [[ "${DISTRO}" =~ "Arch Linux" ]]; then
-  		alias update="sudo pacman -Fy; sudo pkgfile --update; yay -Syu --sudoloop --noconfirm; antigen update; nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'; echo 'Update completed :)'; sleep 2"
-  		alias ins='sudo pacman -S'
-  		alias rem='sudo pacman -Rns'
-  		alias yins='yay -S'
-  		alias yrem='yay -Rns'
+			alias update="sudo pacman -Fy; sudo pkgfile --update; yay -Syu --sudoloop --noconfirm; antigen update; nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'; echo 'Update completed :)'; sleep 2"
+			alias ins='sudo pacman -S'
+			alias rem='sudo pacman -Rns'
+			alias yins='yay -S'
+			alias yrem='yay -Rns'
 		fi
 		;;
 esac
@@ -112,9 +112,9 @@ export EDITOR="nvim"
 # Fix shell bindings
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
-bindkey  "^[[H"   beginning-of-line
-bindkey  "^[[F"   end-of-line
-bindkey  "^[[3~"  delete-char
+bindkey  "^[[H"		beginning-of-line
+bindkey  "^[[F"		end-of-line
+bindkey  "^[[3~"	delete-char
 
 # Plugins
 source "$HOME/.zsh/antigen.zsh"
@@ -137,26 +137,26 @@ zstyle ':vcs_info:git*' formats "%b "
 setopt prompt_subst
 
 precmd() {
-  vcs_info
-  
-  PROMPT="%F{cyan}$(shrink_path -f) "
+	vcs_info
+	
+	PROMPT="%F{cyan}$(shrink_path -f) "
 
-  if [[ -n ${vcs_info_msg_0_} ]]; then
-    local gs=$(git status 2>/dev/null)
-    local color=''
+	if [[ -n ${vcs_info_msg_0_} ]]; then
+		local gs=$(git status 2>/dev/null)
+		local color=''
 
-    if [[ -n ${gs} ]]; then
-      if [[ ! ${gs} =~ "working tree clean" ]]; then
-        color="%F{red}"
-      elif [[ ${gs} =~ "Your branch is ahead of" ]]; then
-        color="%F{yellow}"
-      elif [[ ${gs} =~ "nothing to commit" ]]; then
-        color="%F{green}"
-      fi
-    fi
+		if [[ -n ${gs} ]]; then
+			if [[ ! ${gs} =~ "working tree clean" ]]; then
+				color="%F{red}"
+			elif [[ ${gs} =~ "Your branch is ahead of" ]]; then
+				color="%F{yellow}"
+			elif [[ ${gs} =~ "nothing to commit" ]]; then
+				color="%F{green}"
+			fi
+		fi
 
-    PROMPT+="${color}${vcs_info_msg_0_}"
-  fi
+		PROMPT+="${color}${vcs_info_msg_0_}"
+	fi
 
-  PROMPT+="%F{magenta}❯%f "
+	PROMPT+="%F{magenta}❯%f "
 }

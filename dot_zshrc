@@ -59,6 +59,9 @@ OS="$(uname)"
 
 # OS specific stuff
 case "$OS" in
+	'Darwin')
+		# macOS stuff here
+		;;
 	'Linux')
 		eval "$(dircolors -b)"
 

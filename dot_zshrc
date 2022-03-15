@@ -32,7 +32,6 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-#### CHECKS ####
 # Check if antigen is installed. If not, download the script.
 if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
 	mkdir -p "$HOME/.zsh"
@@ -119,6 +118,7 @@ bindkey  "^[[H"		beginning-of-line
 bindkey  "^[[F"		end-of-line
 bindkey  "^[[3~"	delete-char
 
+
 # Plugins
 source "$HOME/.zsh/antigen.zsh"
 
@@ -128,6 +128,7 @@ antigen bundle globalias
 antigen bundle command-not-found
 antigen bundle shrink-path
 antigen bundle agkozak/zsh-z
+antigen bundle trystan2k/zsh-tab-title
 
 antigen apply
 
@@ -163,3 +164,9 @@ precmd() {
 
 	PROMPT+="%F{magenta}❯%f "
 }
+
+# fnm
+if command -v fnm &>/dev/null; then
+	export PATH=$HOME/.fnm:$PATH
+	eval "`fnm env`"
+fi

@@ -89,11 +89,6 @@ alias ncu='npx npm-check-updates -u'
 
 GLOBALIAS_FILTER_VALUES=(ls la ll lla z)
 
-# Export path on WSL platform
-if [[ "$(uname -r 2>/dev/null)" =~ "microsoft" ]]; then
-  export PATH="/mnt/c/Windows/:/mnt/c/Windows/system32/:/mnt/c/Users/Edoardo/AppData/Local/Programs/Microsoft VS Code/bin/:/mnt/c/Program Files/Docker/Docker/resources/bin:$PATH"
-fi
-
 # Colored man pages
 export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;31m'

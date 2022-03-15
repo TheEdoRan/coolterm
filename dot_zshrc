@@ -22,7 +22,6 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' group-name ''
-eval "$(dircolors -b)"
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
@@ -56,16 +55,24 @@ else
   alias lla='ls -lFA'
 fi
 
-OS_NAME="$(cat /etc/os-release 2>/dev/null | grep -e '^NAME=')"
+OS="$(uname)"
 
-# Check if we're on Arch linux, set up aliases accordingly
-if [[ "${OS_NAME}" =~ "Arch Linux" ]]; then
-  alias update="sudo pacman -Fy; sudo pkgfile --update; yay -Syu --sudoloop --noconfirm; antigen update; nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'; echo 'Update completed :)'; sleep 2"
-  alias ins='sudo pacman -S'
-  alias rem='sudo pacman -Rns'
-  alias yins='yay -S'
-  alias yrem='yay -Rns'
-fi
+# OS specific stuff
+case "$OS" in
+	'Linux')
+		eval "$(dircolors -b)"
+
+		DISTRO="$(cat /etc/os-release 2>/dev/null | grep -e '^NAME=')"
+
+		if [[ "${DISTRO}" =~ "Arch Linux" ]]; then
+  		alias update="sudo pacman -Fy; sudo pkgfile --update; yay -Syu --sudoloop --noconfirm; antigen update; nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'; echo 'Update completed :)'; sleep 2"
+  		alias ins='sudo pacman -S'
+  		alias rem='sudo pacman -Rns'
+  		alias yins='yay -S'
+  		alias yrem='yay -Rns'
+		fi
+		;;
+esac
 
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'

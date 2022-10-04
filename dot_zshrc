@@ -146,7 +146,7 @@ precmd() {
 	PROMPT="%F{cyan}$(shrink_path -f) "
 
 	if [[ -n ${vcs_info_msg_0_} ]]; then
-		local gs=$(git status 2>/dev/null)
+		local gs=$(env LC_ALL=C git status 2>/dev/null)
 		local color=''
 
 		if [[ -n ${gs} ]]; then

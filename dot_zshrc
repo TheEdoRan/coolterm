@@ -67,7 +67,7 @@ case "$OS" in
 		DISTRO="$(cat /etc/os-release 2>/dev/null | grep -e '^NAME=')"
 
 		if [[ "${DISTRO}" =~ "Arch Linux" ]]; then
-			alias update="sudo pacman -Fy; sudo pkgfile --update; yay -Syu --sudoloop --noconfirm; antigen update; nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'; echo 'Update completed :)'; sleep 2"
+			alias update="topgrade"
 			alias ins='sudo pacman -S'
 			alias rem='sudo pacman -Rns'
 			alias yins='yay -S'
@@ -165,8 +165,7 @@ precmd() {
 	PROMPT+="%F{magenta}❯%f "
 }
 
-# fnm
-if command -v fnm &>/dev/null; then
-	export PATH=$HOME/.fnm:$PATH
-	eval "`fnm env`"
-fi
+export PATH=$HOME/.fnm:$HOME/.local/share/bin:$PATH
+
+# fnm init
+eval "$(fnm env --use-on-cd)"

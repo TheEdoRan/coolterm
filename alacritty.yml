@@ -1,0 +1,76 @@
+env:
+  TERM: alacritty
+
+window:
+  dimensions:
+    columns: 120
+    lines: 30
+
+  padding:
+    x: 5
+    y: 5
+
+  dynamic_padding: true
+
+  decorations: full
+  opacity: 1.0
+  dynamic_title: true
+
+scrolling:
+  history: 0
+  multiplier: 3
+
+font:
+  normal:
+    family: Hack Nerd Font
+  bold:
+    family: Hack Nerd Font
+  italic:
+    family: Hack Nerd Font
+  bold_italic:
+    family: Hack Nerd Font
+
+  size: 12.0
+
+bell:
+  duration: 0
+
+cursor:
+  style:
+    shape: Block
+    blinking: On
+
+draw_bold_text_with_bright_colors: true
+
+# Modified Snazzy theme
+colors:
+  primary:
+    background: '#1d1f21'
+    foreground: '#eff0eb'
+
+  cursor:
+    cursor: '#97979b'
+
+  selection:
+    text:       '#1d1f21'
+    background: '#feffff'
+
+  normal:
+    black:   '#282a36'
+    red:     '#ff5c57'
+    green:   '#5af78e'
+    yellow:  '#f3f99d'
+    blue:    '#57c7ff'
+    magenta: '#ff6ac1'
+    cyan:    '#66cade'
+    white:   '#f1f1f0'
+
+  bright:
+    black:   '#686868'
+    red:     '#ff5c57'
+    green:   '#5af78e'
+    yellow:  '#f3f99d'
+    blue:    '#57c7ff'
+    magenta: '#ff6ac1'
+    cyan:    '#66cade'
+    white:   '#eff0eb'

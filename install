@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 
+# zsh
 rm "$HOME/.zshrc" 2>/dev/null
 ln -sf "$(pwd)/dot_zshrc" "$HOME/.zshrc"
 
+# alacritty
+rm -rf "$HOME/.config/alacritty" 2>/dev/null
+mkdir -p "$HOME/.config/alacritty"
+ln -sf "$(pwd)/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
+
+# tmux
 rm "$HOME/.tmux.conf" 2>/dev/null
 ln -sf "$(pwd)/dot_tmux.conf" "$HOME/.tmux.conf"
 

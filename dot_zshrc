@@ -169,3 +169,8 @@ export PATH=$HOME/.fnm:$HOME/.local/share/bin:$PATH
 
 # fnm init
 eval "$(fnm env --use-on-cd)"
+
+# tmux init
+if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
+	exec tmux new-session -A -s main
+fi

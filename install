@@ -2,3 +2,10 @@
 
 rm "$HOME/.zshrc" 2>/dev/null
 ln -sf "$(pwd)/dot_zshrc" "$HOME/.zshrc"
+
+rm "$HOME/.tmux.conf" 2>/dev/null
+ln -sf "$(pwd)/dot_tmux.conf" "$HOME/.tmux.conf"
+
+# install TPM
+rm -rf "$HOME/.tmux" 2>/dev/null
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

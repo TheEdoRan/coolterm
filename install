@@ -4,10 +4,13 @@
 rm "$HOME/.zshrc" 2>/dev/null
 ln -sf "$(pwd)/dot_zshrc" "$HOME/.zshrc"
 
-# alacritty
-rm -rf "$HOME/.config/alacritty" 2>/dev/null
-mkdir -p "$HOME/.config/alacritty"
-ln -sf "$(pwd)/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
+# if not in WSL environment
+if ! grep -q microsoft /proc/version; then
+	# alacritty
+	rm -rf "$HOME/.config/alacritty" 2>/dev/null
+	mkdir -p "$HOME/.config/alacritty"
+	ln -sf "$(pwd)/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
+fi
 
 # tmux
 rm "$HOME/.tmux.conf" 2>/dev/null

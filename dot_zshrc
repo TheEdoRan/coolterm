@@ -32,20 +32,25 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-# Check if antigen is installed. If not, download the script.
+# Check if antigen is installed. If not, download the script
 if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
 	mkdir -p "$HOME/.zsh"
 	curl -L git.io/antigen > "$HOME/.zsh/antigen.zsh"
 	clear
 fi
 
+# Check if fnm is installed, if not, install it
+[ ! -d "$HOME"/.local/share/fnm ] \
+	&& echo "fnm not found! Installing it..." \
+	&& curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+
 # Aliases
 # Check if exa is installed
 if command -v exa &>/dev/null; then
-	alias ls='exa --icons --git'
-	alias la='exa --icons --git -a'
-	alias ll='exa --icons --git -l'
-	alias lla='exa --icons --git -la'
+	alias ls='exa --icons'
+	alias la='exa --icons -a'
+	alias ll='exa --icons -l'
+	alias lla='exa --icons -la'
 	alias _ls='/usr/bin/ls --color=auto'
 else
 	alias ls='ls --color=auto'
@@ -56,10 +61,10 @@ fi
 
 OS="$(uname)"
 
-# OS specific stuff
+# OS specific stuff
 case "$OS" in
 	'Darwin')
-		# macOS stuff here
+		# macOS stuff here
 		;;
 	'Linux')
 		eval "$(dircolors -b)"
@@ -67,11 +72,15 @@ case "$OS" in
 		DISTRO="$(cat /etc/os-release 2>/dev/null | grep -e '^NAME=')"
 
 		if [[ "${DISTRO}" =~ "Arch Linux" ]]; then
-			alias update="topgrade"
+			alias update="sudo pacman -Syu --noconfirm; yay -Syua --noconfirm; npm update -g; echo -e '\nDone!'"
 			alias ins='sudo pacman -S'
 			alias rem='sudo pacman -Rns'
 			alias yins='yay -S'
 			alias yrem='yay -Rns'
+		elif [[ "${DISTRO}" =~ "Ubuntu" ]]; then
+			alias update="sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove -y; npm update -g; echo -e '\nDone!'"
+			alias ins='sudo apt install'
+			alias rem='sudo apt autoremove --purge'
 		fi
 		;;
 esac
@@ -79,14 +88,12 @@ esac
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias v='nvim'
-alias sv='sudoedit'
-alias vim='nvim'
-alias _vim='/usr/bin/vim'
+alias v='vim'
 alias ga='git add'
 alias gd='git diff'
 alias gs='git status -s'
 alias gc='git commit -m'
+alias gcn='git commit --no-edit'
 alias gcz='git cz'
 alias gl="git log --oneline"
 alias gf='git fetch'
@@ -95,6 +102,8 @@ alias gcln='git clean -dfx'
 alias gp='git push'
 alias gri='git rebase -i'
 alias ncu='npx npm-check-updates -u'
+alias ytmp3="yt-dlp -f 'ba' -x --audio-format mp3"
+alias rndstr="openssl rand -hex 32"
 
 GLOBALIAS_FILTER_VALUES=(ls la ll lla z)
 
@@ -109,15 +118,17 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 export LESS=-r
 
 # Editor
-export EDITOR="nvim"
+export EDITOR="vim"
 
 # Fix shell bindings
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
-bindkey  "^[[H"		beginning-of-line
-bindkey  "^[[F"		end-of-line
-bindkey  "^[[3~"	delete-char
+bindkey  "^[[H"         beginning-of-line
+bindkey  "^[[F"         end-of-line
+bindkey  "^[[3~"        delete-char
 
+# Configure path
+export PATH=$HOME/.local/share/fnm:$HOME/.local/bin:$HOME/.local/share/bin:/snap/bin:$PATH
 
 # Plugins
 source "$HOME/.zsh/antigen.zsh"
@@ -142,7 +153,7 @@ setopt prompt_subst
 
 precmd() {
 	vcs_info
-	
+
 	PROMPT="%F{cyan}$(shrink_path -f) "
 
 	if [[ -n ${vcs_info_msg_0_} ]]; then
@@ -165,8 +176,6 @@ precmd() {
 	PROMPT+="%F{magenta}❯%f "
 }
 
-export PATH=$HOME/.fnm:$HOME/.local/share/bin:$PATH
-
 # fnm init
 eval "$(fnm env --use-on-cd)"
 
@@ -176,3 +185,4 @@ if [[ "$TERM_PROGRAM" != "vscode" ]]; then
 		exec tmux new-session -A -s main
 	fi
 fi
+

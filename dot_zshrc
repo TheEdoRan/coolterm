@@ -99,7 +99,7 @@ alias gcz='git cz'
 alias gl="git log --oneline"
 alias gf='git fetch'
 alias gclo='git clone'
-alias gcln='git clean -dfx'
+alias gcln='git clean -df'
 alias gp='git push'
 alias gri='git rebase -i'
 alias ncu='npx npm-check-updates -u'
@@ -181,9 +181,8 @@ precmd() {
 eval "$(fnm env --use-on-cd)"
 
 # tmux init if not in VS Code
-if [[ "$TERM_PROGRAM" != "vscode" ]]; then
-	if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
-		exec tmux new-session -A -s main
-	fi
-fi
-
+# if [[ "$TERM_PROGRAM" != "vscode" ]]; then
+	# if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
+		# exec tmux new-session -A -s main
+	# fi
+# fi

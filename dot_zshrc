@@ -177,6 +177,11 @@ precmd() {
 	PROMPT+="%F{magenta}❯%f "
 }
 
+# ssh agent init if process not found
+if ! pidof ssh-agent >/dev/null; then
+	eval "$(ssh-agent)" &>/dev/null
+fi
+
 # fnm init
 eval "$(fnm env --use-on-cd)"
 

@@ -191,3 +191,9 @@ if [[ "$TERM_PROGRAM" != "vscode" ]]; then
 		exec tmux new-session -A -s main
 	fi
 fi
+
+clockfix () {
+	echo '[ROOT] Updating clock (sudo hwclock --hctosys)'
+	sudo hwclock -s
+	sudo ntpdate time.windows.com
+}

@@ -39,11 +39,6 @@ if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
 	clear
 fi
 
-# Check if fnm is installed, if not, install it
-[ ! -d "$HOME"/.local/share/fnm ] \
-	&& echo "fnm not found! Installing it..." \
-	&& curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
-
 # Aliases
 # Check if eza is installed
 if command -v eza &>/dev/null; then
@@ -130,7 +125,7 @@ bindkey  "^[[F"         end-of-line
 bindkey  "^[[3~"        delete-char
 
 # Configure path
-export PATH=$HOME/.local/share/fnm:$HOME/.local/bin:$HOME/.local/share/bin:/snap/bin:$PATH
+export PATH=$HOME/.local/bin:$HOME/.local/share/bin:/snap/bin:$PATH
 
 # Plugins
 source "$HOME/.zsh/antigen.zsh"
@@ -182,9 +177,6 @@ precmd() {
 if ! pidof ssh-agent >/dev/null; then
 	eval "$(ssh-agent)" &>/dev/null
 fi
-
-# fnm init
-eval "$(fnm env --use-on-cd)"
 
 # tmux init if not in VS Code
 if [[ "$TERM_PROGRAM" != "vscode" ]]; then

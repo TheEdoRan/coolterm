@@ -179,11 +179,11 @@ if ! pidof ssh-agent >/dev/null; then
 fi
 
 # tmux init if not in VS Code
-if [[ "$TERM_PROGRAM" != "vscode" ]]; then
-	if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
-		exec tmux new-session -A -s main
-	fi
-fi
+# if [[ "$TERM_PROGRAM" != "vscode" ]]; then
+#	if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
+#		exec tmux new-session -A -s main
+#	fi
+# fi
 
 clockfix () {
 	echo '[ROOT] Updating clock (sudo hwclock --hctosys)'

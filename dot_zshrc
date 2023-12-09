@@ -199,7 +199,6 @@ clockfix () {
 	sudo ntpdate time.windows.com
 }
 
-
 # If private aliases file found, source it
 if [ -f "$HOME/.zsh_private_aliases" ]; then
 	source "$HOME/.zsh_private_aliases"

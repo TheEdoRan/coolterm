@@ -89,7 +89,7 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias v='vim'
-alias nrd='npm run dev'
+alias nrd='pnpm run dev'
 alias ga='git add'
 alias gd='git diff'
 alias gs='git status -s'
@@ -102,7 +102,7 @@ alias gclo='git clone'
 alias gcln='git clean -df'
 alias gp='git push'
 alias gri='git rebase -i'
-alias ncu='npx npm-check-updates -u'
+alias ncu='pnpm dlx npm-check-updates -u'
 alias ytmp3="yt-dlp -f 'ba' -x --audio-format mp3"
 alias rndstr="openssl rand -hex 32"
 alias c="code"
@@ -203,3 +203,10 @@ clockfix () {
 if [ -f "$HOME/.zsh_private_aliases" ]; then
 	source "$HOME/.zsh_private_aliases"
 fi
+
+# bun completions
+[ -s "/home/theedoran/.bun/_bun" ] && source "/home/theedoran/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

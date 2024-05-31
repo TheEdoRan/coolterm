@@ -141,7 +141,7 @@ antigen bundle globalias
 antigen bundle command-not-found
 antigen bundle shrink-path
 antigen bundle agkozak/zsh-z
-antigen bundle trystan2k/zsh-tab-title
+antigen bundle trystan2k/zsh-tab-title@main
 
 antigen apply
 

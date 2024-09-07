@@ -47,10 +47,10 @@ fi
 # Aliases
 # Check if eza is installed
 if command -v eza &>/dev/null; then
-	alias ls='eza'
-	alias la='eza -a'
-	alias ll='eza -l'
-	alias lla='eza -la'
+	alias ls='eza --icons'
+	alias la='eza --icons -a'
+	alias ll='eza --icons -l'
+	alias lla='eza --icons -la'
 	alias _ls='/usr/bin/ls --color=auto'
 else
 	alias ls='ls --color=auto'

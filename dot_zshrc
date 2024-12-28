@@ -32,6 +32,33 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
+# OS specific stuff
+OS="$(uname)"
+
+case "$OS" in
+	'Darwin')
+		# macOS stuff here
+		eval "$(/opt/homebrew/bin/brew shellenv)"
+		;;
+	'Linux')
+		eval "$(dircolors -b)"
+
+		DISTRO="$(cat /etc/os-release 2>/dev/null | grep -e '^NAME=')"
+
+		if [[ "${DISTRO}" =~ "Arch Linux" ]]; then
+			alias update="sudo pacman -Syu --noconfirm; yay -Syua --noconfirm; npm update -g; echo -e '\nDone!'"
+			alias ins='sudo pacman -S'
+			alias rem='sudo pacman -Rns'
+			alias yins='yay -S'
+			alias yrem='yay -Rns'
+		elif [[ "${DISTRO}" =~ "Ubuntu" ]]; then
+			alias update="sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove -y; npm update -g; echo -e '\nDone!'"
+			alias ins='sudo apt install'
+			alias rem='sudo apt autoremove --purge'
+		fi
+		;;
+esac
+
 # Check if antigen is installed. If not, download the script
 if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
 	mkdir -p "$HOME/.zsh"
@@ -59,32 +86,6 @@ else
 	alias lla='ls -lFA'
 fi
 
-OS="$(uname)"
-
-# OS specific stuff
-case "$OS" in
-	'Darwin')
-		# macOS stuff here
-		;;
-	'Linux')
-		eval "$(dircolors -b)"
-
-		DISTRO="$(cat /etc/os-release 2>/dev/null | grep -e '^NAME=')"
-
-		if [[ "${DISTRO}" =~ "Arch Linux" ]]; then
-			alias update="sudo pacman -Syu --noconfirm; yay -Syua --noconfirm; npm update -g; echo -e '\nDone!'"
-			alias ins='sudo pacman -S'
-			alias rem='sudo pacman -Rns'
-			alias yins='yay -S'
-			alias yrem='yay -Rns'
-		elif [[ "${DISTRO}" =~ "Ubuntu" ]]; then
-			alias update="sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove -y; npm update -g; echo -e '\nDone!'"
-			alias ins='sudo apt install'
-			alias rem='sudo apt autoremove --purge'
-		fi
-		;;
-esac
-
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -106,6 +107,13 @@ alias ncu='pnpm dlx npm-check-updates -u'
 alias ytmp3="yt-dlp -f 'ba' -x --audio-format mp3"
 alias rndstr="openssl rand -hex 32"
 alias c="code"
+
+# Git add everything, commit with message and push
+gacp() {
+	git add .
+	git commit -m "$1"
+	git push
+}
 
 GLOBALIAS_FILTER_VALUES=(ls la ll lla z)
 
@@ -178,26 +186,8 @@ precmd() {
 	PROMPT+="%F{magenta}❯%f "
 }
 
-# ssh agent init if process not found
-if ! pidof ssh-agent >/dev/null; then
-	eval "$(ssh-agent)" &>/dev/null
-fi
-
 # fnm init
 eval "$(fnm env --use-on-cd)"
-
-# tmux init if not in VS Code
-# if [[ "$TERM_PROGRAM" != "vscode" ]]; then
-#	if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
-#		exec tmux new-session -A -s main
-#	fi
-# fi
-
-clockfix () {
-	echo '[ROOT] Updating clock (sudo hwclock --hctosys)'
-	sudo hwclock -s
-	sudo ntpdate time.windows.com
-}
 
 # If private aliases file found, source it
 if [ -f "$HOME/.zsh_private_aliases" ]; then

@@ -1,0 +1,7 @@
+theme = "Snazzy"
+font-size = 16
+font-family = "Hack Nerd Font"
+shell-integration-features = "no-cursor"
+cursor-style = "block"
+window-padding-x = 8
+window-padding-y = 8

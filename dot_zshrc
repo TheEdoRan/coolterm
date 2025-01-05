@@ -59,17 +59,28 @@ case "$OS" in
 		;;
 esac
 
-# Check if antigen is installed. If not, download the script
+# Check if antigen is installed; if not, download the script
 if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
 	mkdir -p "$HOME/.zsh"
 	curl -L git.io/antigen > "$HOME/.zsh/antigen.zsh"
 	clear
 fi
 
-# Check if fnm is installed, if not, install it
+# Check if fnm is installed; if not, install it
 [ ! -d "$HOME"/.local/share/fnm ] \
 	&& echo "fnm not found! Installing it..." \
 	&& curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+
+# Plugins
+source "$HOME/.zsh/antigen.zsh"
+
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle globalias
+antigen bundle shrink-path
+antigen bundle agkozak/zsh-z
+
+antigen apply
 
 # Aliases
 # Check if eza is installed
@@ -108,14 +119,15 @@ alias ytmp3="yt-dlp -f 'ba' -x --audio-format mp3"
 alias rndstr="openssl rand -hex 32"
 alias c="code"
 
+# Don't expand these aliases
+GLOBALIAS_FILTER_VALUES=(ls la ll lla z)
+
 # Git add everything, commit with message and push
 gacp() {
 	git add .
 	git commit -m "$1"
 	git push
 }
-
-GLOBALIAS_FILTER_VALUES=(ls la ll lla z)
 
 # Colored man pages
 export LESS_TERMCAP_mb=$'\E[01;31m'
@@ -139,19 +151,6 @@ export EDITOR="vim"
 
 # Configure path
 export PATH=$HOME/.local/share/fnm:$HOME/.local/bin:$HOME/.local/share/bin:/snap/bin:$PATH
-
-# Plugins
-source "$HOME/.zsh/antigen.zsh"
-
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle globalias
-antigen bundle command-not-found
-antigen bundle shrink-path
-antigen bundle agkozak/zsh-z
-antigen bundle trystan2k/zsh-tab-title@main
-
-antigen apply
 
 # Git
 autoload -Uz vcs_info
@@ -201,10 +200,3 @@ eval "$(fnm env --use-on-cd)"
 if [ -f "$HOME/.zsh_private_aliases" ]; then
 	source "$HOME/.zsh_private_aliases"
 fi
-
-# bun completions
-[ -s "/home/theedoran/.bun/_bun" ] && source "/home/theedoran/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"

@@ -131,11 +131,11 @@ export LESS=-r
 export EDITOR="vim"
 
 # Fix shell bindings
-bindkey "^[[1;5C" forward-word
-bindkey "^[[1;5D" backward-word
-bindkey  "^[[H"         beginning-of-line
-bindkey  "^[[F"         end-of-line
-bindkey  "^[[3~"        delete-char
+# bindkey "^[[1;5C" forward-word
+# bindkey "^[[1;5D" backward-word
+# bindkey  "^[[H"         beginning-of-line
+# bindkey  "^[[F"         end-of-line
+# bindkey  "^[[3~"        delete-char
 
 # Configure path
 export PATH=$HOME/.local/share/fnm:$HOME/.local/bin:$HOME/.local/share/bin:/snap/bin:$PATH
@@ -162,26 +162,34 @@ zstyle ':vcs_info:git*' formats "%b "
 setopt prompt_subst
 
 precmd() {
+	local ec=$?
 	vcs_info
 
 	PROMPT="%F{cyan}$(shrink_path -f) "
 
-	if [[ -n ${vcs_info_msg_0_} ]]; then
-		local gs=$(env LC_ALL=C git status 2>/dev/null)
-		local color=''
+  if [[ -n ${vcs_info_msg_0_} ]]; then
+    local gs=$(git status --porcelain 2>/dev/null)
+    local ahead=$(git rev-list --count HEAD@{upstream}..HEAD 2>/dev/null)
+    local behind=$(git rev-list --count HEAD..HEAD@{upstream} 2>/dev/null)
+    local color=''
 
-		if [[ -n ${gs} ]]; then
-			if [[ ! ${gs} =~ "working tree clean" ]]; then
-				color="%F{red}"
-			elif [[ ${gs} =~ "Your branch is ahead of" ]]; then
-				color="%F{yellow}"
-			elif [[ ${gs} =~ "nothing to commit" ]]; then
-				color="%F{green}"
-			fi
-		fi
+    if [[ -n ${gs} ]]; then
+      # Working tree has changes
+      color="%F{red}"
+    elif [[ ${ahead:-0} -gt 0 || ${behind:-0} -gt 0 ]]; then
+      # Branch is ahead or behind upstream
+      color="%F{yellow}"
+    else
+      # Clean working tree
+      color="%F{green}"
+    fi
 
-		PROMPT+="${color}${vcs_info_msg_0_}"
-	fi
+    PROMPT+="${color}${vcs_info_msg_0_}"
+  fi
+
+  if [[ $ec -ne 0 ]]; then
+    PROMPT+="%F{red}%B${ec}%b "
+  fi
 
 	PROMPT+="%F{magenta}❯%f "
 }

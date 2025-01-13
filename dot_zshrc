@@ -200,3 +200,10 @@ eval "$(fnm env --use-on-cd)"
 if [ -f "$HOME/.zsh_private_aliases" ]; then
 	source "$HOME/.zsh_private_aliases"
 fi
+
+# tmux init if not in VS Code
+if [[ "$TERM_PROGRAM" != "vscode" ]]; then
+	if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
+		exec tmux new-session -A -s main
+	fi
+fi

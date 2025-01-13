@@ -61,15 +61,25 @@ esac
 
 # Check if antigen is installed; if not, download the script
 if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
+	echo "antigen not found, installing it..."
 	mkdir -p "$HOME/.zsh"
 	curl -L git.io/antigen > "$HOME/.zsh/antigen.zsh"
 	clear
 fi
 
 # Check if fnm is installed; if not, install it
-[ ! -d "$HOME"/.local/share/fnm ] \
-	&& echo "fnm not found! Installing it..." \
-	&& curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+if [ ! -d "$HOME/.local/share/fnm" ]; then
+	echo "fnm not found, installing it..."
+	curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+	clear
+fi
+
+# Check if tpm is installed; if not, install it
+if [ ! -d "$HOME/.tmux/plugins" ]; then
+	echo "tpm not found, installing it..."
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	clear
+fi
 
 # Plugins
 source "$HOME/.zsh/antigen.zsh"
@@ -143,11 +153,11 @@ export LESS=-r
 export EDITOR="vim"
 
 # Fix shell bindings
-bindkey "^[[1;5C"  forward-word
-bindkey "^[[1;5D"  backward-word
-bindkey  "^[[H"    beginning-of-line
-bindkey  "^[[F"    end-of-line
-bindkey  "^[[3~"   delete-char
+bindkey  "^[[1;5C"  forward-word
+bindkey  "^[[1;5D"  backward-word
+bindkey  "^[[H"     beginning-of-line
+bindkey  "^[[F"     end-of-line
+bindkey  "^[[3~"    delete-char
 
 # Configure path
 export PATH=$HOME/.local/share/fnm:$HOME/.local/bin:$HOME/.local/share/bin:/snap/bin:$PATH

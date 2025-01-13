@@ -2,3 +2,6 @@
 
 # zsh
 ln -sf "$(pwd)/dot_zshrc" "$HOME/.zshrc"
+
+# tmux
+ln -sf "$(pwd)/dot_tmux.conf" "$HOME/.tmux.conf"

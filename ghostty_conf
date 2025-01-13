@@ -11,11 +11,3 @@ window-padding-y = 8
 window-padding-balance = true
 adjust-cell-height = 3
 mouse-hide-while-typing = true
-
-# Keybindings
-keybind = ctrl+z>\=new_split:right
-keybind = ctrl+z>-=new_split:down
-keybind = ctrl+z>h=goto_split:left
-keybind = ctrl+z>j=goto_split:bottom
-keybind = ctrl+z>k=goto_split:top
-keybind = ctrl+z>l=goto_split:right

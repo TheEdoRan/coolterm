@@ -41,6 +41,7 @@ case "$OS" in
 		eval "$(/opt/homebrew/bin/brew shellenv)"
 		;;
 	'Linux')
+		export PNPM_HOME="$HOME/.local/share/pnpm"
 		eval "$(dircolors -b)"
 
 		DISTRO="$(cat /etc/os-release 2>/dev/null | grep -e '^NAME=')"
@@ -205,6 +206,13 @@ precmd() {
 
 # fnm init
 eval "$(fnm env --use-on-cd)"
+
+# pnpm
+case ":$PATH:" in
+	*":$PNPM_HOME:"*) ;;
+	*) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
 
 # If private aliases file found, source it
 if [ -f "$HOME/.zsh_private_aliases" ]; then

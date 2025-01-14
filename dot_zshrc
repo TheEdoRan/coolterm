@@ -38,7 +38,8 @@ OS="$(uname)"
 case "$OS" in
 	'Darwin')
 		# macOS stuff here
-		eval "$(/opt/homebrew/bin/brew shellenv)"
+    export PNPM_HOME="$HOME/Library/pnpm"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 		;;
 	'Linux')
 		export PNPM_HOME="$HOME/.local/share/pnpm"

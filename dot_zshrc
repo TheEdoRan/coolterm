@@ -39,6 +39,7 @@ case "$OS" in
 	'Darwin')
 		# macOS stuff here
     export PNPM_HOME="$HOME/Library/pnpm"
+		alias update="brew upgrade; brew cleanup; pnpm self-update; pnpm update -g; echo -e '\nDone!'"
     eval "$(/opt/homebrew/bin/brew shellenv)"
 		;;
 	'Linux')
@@ -48,13 +49,13 @@ case "$OS" in
 		DISTRO="$(cat /etc/os-release 2>/dev/null | grep -e '^NAME=')"
 
 		if [[ "${DISTRO}" =~ "Arch Linux" ]]; then
-			alias update="sudo pacman -Syu --noconfirm; yay -Syua --noconfirm; npm update -g; echo -e '\nDone!'"
+			alias update="sudo pacman -Syu --noconfirm; yay -Syua --noconfirm; pnpm self-update; pnpm update -g;  echo -e '\nDone!'"
 			alias ins='sudo pacman -S'
 			alias rem='sudo pacman -Rns'
 			alias yins='yay -S'
 			alias yrem='yay -Rns'
 		elif [[ "${DISTRO}" =~ "Ubuntu" ]]; then
-			alias update="sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove -y; npm update -g; echo -e '\nDone!'"
+			alias update="sudo apt update -y; sudo apt upgrade -y; sudo apt autoremove -y; pnpm self-update; pnpm update -g; echo -e '\nDone!'"
 			alias ins='sudo apt install'
 			alias rem='sudo apt autoremove --purge'
 		fi

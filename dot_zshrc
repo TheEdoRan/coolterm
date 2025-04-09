@@ -132,9 +132,7 @@ alias gri='git rebase -i'
 alias ncu='pnpm dlx npm-check-updates -u'
 alias ytmp3="yt-dlp -f 'ba' -x --audio-format mp3"
 alias rndstr="openssl rand -hex 32"
-alias code="cursor"
-alias _code="code"
-alias c="cursor"
+alias c="code"
 
 # Don't expand these aliases
 GLOBALIAS_FILTER_VALUES=(ls la ll lla z)

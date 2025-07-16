@@ -72,13 +72,6 @@ if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
 	clear
 fi
 
-# Check if fnm is installed; if not, install it
-if [ ! -d "$HOME/.local/share/fnm" ]; then
-	echo "fnm not found, installing it..."
-	curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
-	clear
-fi
-
 # Check if tpm is installed; if not, install it
 if [ ! -d "$HOME/.tmux/plugins" ]; then
 	echo "tpm not found, installing it..."
@@ -167,7 +160,7 @@ bindkey  "^[[F"     end-of-line
 bindkey  "^[[3~"    delete-char
 
 # Configure path
-export PATH=$HOME/.local/share/fnm:$HOME/.local/bin:$HOME/.local/share/bin:/snap/bin:$PATH
+export PATH=$HOME/.local/bin:$HOME/.local/share/bin:/snap/bin:$PATH
 
 # Git
 autoload -Uz vcs_info
@@ -209,9 +202,6 @@ precmd() {
 
 	PROMPT+="%F{magenta}❯%f "
 }
-
-# fnm init
-eval "$(fnm env --use-on-cd)"
 
 # If private aliases file found, source it
 if [ -f "$HOME/.zsh_private_aliases" ]; then

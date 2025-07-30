@@ -40,6 +40,7 @@ case "$OS" in
 		# macOS stuff here
 		# ruby
 		export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+		export PNPM_HOME="$HOME/Library/pnpm"
 
 		alias mydns="scutil --dns | grep 'nameserver\[[0-9]*\]'"
 		alias update="brew upgrade; brew cleanup; pnpm update --latest -g; echo -e '\nDone!'"
@@ -47,6 +48,7 @@ case "$OS" in
 		;;
 	'Linux')
 		eval "$(dircolors -b)"
+		export PNPM_HOME="$HOME/.local/share/pnpm"
 
 		DISTRO="$(cat /etc/os-release 2>/dev/null | grep -e '^NAME=')"
 
@@ -223,8 +225,8 @@ if command -v pyenv >/dev/null; then
 	eval "$(pyenv init --path)"
 fi
 
+
 # pnpm
-export PNPM_HOME="/Users/theedoran/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;

@@ -43,7 +43,7 @@ case "$OS" in
 		export PNPM_HOME="$HOME/Library/pnpm"
 
 		alias mydns="scutil --dns | grep 'nameserver\[[0-9]*\]'"
-		alias update="brew upgrade; brew cleanup; pnpm update --latest -g; echo -e '\nDone!'"
+		alias update="brew update; brew upgrade; brew cleanup; pnpm update --latest -g; echo -e '\nDone!'"
     eval "$(/opt/homebrew/bin/brew shellenv)"
 		;;
 	'Linux')
@@ -125,11 +125,10 @@ alias gcln='git clean -df'
 alias gp='git push'
 alias gri='git rebase -i'
 alias ncu='pnpm dlx npm-check-updates -u'
-alias ytmp3="yt-dlp -f 'ba' -x --audio-format mp3"
-alias rndstr="openssl rand -hex 32"
-alias c="cursor"
-alias code="cursor"
-
+alias ytmp3='yt-dlp -f 'ba' -x --audio-format mp3'
+alias rndstr='openssl rand -hex 32'
+alias c='code'
+alias oc='opencode'
 
 # Don't expand these aliases
 GLOBALIAS_FILTER_VALUES=(ls la ll lla z)
@@ -232,3 +231,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# opencode
+export PATH=/Users/theedoran/.opencode/bin:$PATH

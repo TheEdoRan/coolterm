@@ -224,7 +224,6 @@ if command -v pyenv >/dev/null; then
 	eval "$(pyenv init --path)"
 fi
 
-
 # pnpm
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;

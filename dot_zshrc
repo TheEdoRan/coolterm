@@ -165,6 +165,9 @@ bindkey  "^[[H"     beginning-of-line
 bindkey  "^[[F"     end-of-line
 bindkey  "^[[3~"    delete-char
 
+# java
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+
 # bun
 export BUN_INSTALL="$HOME/.bun"
 
@@ -176,6 +179,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 
 # Configure PATH
 path=(
+	"$JAVA_HOME/bin"
 	"$HOME/.local/bin"
 	"$HOME/.local/share/bin"
 	"$HOME/.opencode/bin"

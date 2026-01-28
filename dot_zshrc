@@ -38,13 +38,11 @@ OS="$(uname)"
 case "$OS" in
 	'Darwin')
 		# macOS stuff here
-		# ruby
-		export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+		eval "$(/opt/homebrew/bin/brew shellenv)"
 		export PNPM_HOME="$HOME/Library/pnpm"
 
 		alias mydns="scutil --dns | grep 'nameserver\[[0-9]*\]'"
 		alias update="brew update; brew upgrade; brew cleanup; pnpm update --latest -g; echo -e '\nDone!'"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
 		;;
 	'Linux')
 		eval "$(dircolors -b)"
@@ -71,6 +69,13 @@ if [ ! -f "$HOME/.zsh/antigen.zsh" ]; then
 	echo "antigen not found, installing it..."
 	mkdir -p "$HOME/.zsh"
 	curl -L git.io/antigen > "$HOME/.zsh/antigen.zsh"
+	clear
+fi
+
+# Check if fnm is installed; if not, install it
+if [ ! -d "$HOME/.local/share/fnm" ]; then
+	echo "fnm not found, installing it..."
+	curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
 	clear
 fi
 
@@ -125,7 +130,7 @@ alias gcln='git clean -df'
 alias gp='git push'
 alias gri='git rebase -i'
 alias ncu='pnpm dlx npm-check-updates -u'
-alias ytmp3='yt-dlp -f 'ba' -x --audio-format mp3'
+alias ytmp3="yt-dlp -f 'ba' -x --audio-format mp3"
 alias rndstr='openssl rand -hex 32'
 alias c='code'
 alias oc='opencode'
@@ -160,8 +165,29 @@ bindkey  "^[[H"     beginning-of-line
 bindkey  "^[[F"     end-of-line
 bindkey  "^[[3~"    delete-char
 
-# Configure path
-export PATH=$HOME/.local/bin:$HOME/.local/share/bin:/snap/bin:$PATH
+# bun
+export BUN_INSTALL="$HOME/.bun"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# Configure PATH
+path=(
+	"$HOME/.local/bin"
+	"$HOME/.local/share/bin"
+	"$HOME/.opencode/bin"
+	"$PYENV_ROOT/bin"(N)
+	"$BUN_INSTALL/bin"(N)
+	"$PNPM_HOME"(N)
+	"$HOME/.local/share/fnm"(N)
+	"/snap/bin"(N)
+	"$path[@]"
+)
+typeset -U path
+export PATH
 
 # Git
 autoload -Uz vcs_info
@@ -177,7 +203,7 @@ precmd() {
 
 	PROMPT="%F{cyan}$(shrink_path -f) "
 
-  if [[ -n ${vcs_info_msg_0_} ]]; then
+	if [[ -n ${vcs_info_msg_0_} ]]; then
     local gs=$(git status --porcelain 2>/dev/null)
     local ahead=$(git rev-list --count HEAD@{upstream}..HEAD 2>/dev/null)
     local behind=$(git rev-list --count HEAD..HEAD@{upstream} 2>/dev/null)
@@ -197,9 +223,9 @@ precmd() {
     PROMPT+="${color}${vcs_info_msg_0_}"
   fi
 
-  if [[ $ec -ne 0 ]]; then
-    PROMPT+="%F{red}%B${ec}%b "
-  fi
+	if [[ $ec -ne 0 ]]; then
+		PROMPT+="%F{red}%B${ec}%b "
+	fi
 
 	PROMPT+="%F{magenta}❯%f "
 }
@@ -209,27 +235,9 @@ if [ -f "$HOME/.zsh_private_aliases" ]; then
 	source "$HOME/.zsh_private_aliases"
 fi
 
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
 if command -v pyenv >/dev/null; then
-	eval "$(pyenv init --path)"
+	eval "$(pyenv init -)"
 fi
 
-# pnpm
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-# opencode
-export PATH=$HOME/.opencode/bin:$PATH
+# fnm init
+eval "$(fnm env --use-on-cd)"

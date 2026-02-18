@@ -134,6 +134,7 @@ alias ytmp3="yt-dlp -f 'ba' -x --audio-format mp3"
 alias rndstr='openssl rand -hex 32'
 alias c='code'
 alias oc='opencode'
+alias lg='lazygit'
 
 # Don't expand these aliases
 GLOBALIAS_FILTER_VALUES=(ls la ll lla z)
@@ -245,3 +246,4 @@ fi
 
 # fnm init
 eval "$(fnm env --use-on-cd)"
+

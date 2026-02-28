@@ -42,7 +42,7 @@ case "$OS" in
 		export PNPM_HOME="$HOME/Library/pnpm"
 
 		alias mydns="scutil --dns | grep 'nameserver\[[0-9]*\]'"
-		alias update="brew update; brew upgrade; brew cleanup; pnpm update --latest -g; echo -e '\nDone!'"
+		alias update="brew update; brew upgrade; brew cleanup; pnpm self-update; pnpm update --latest -g; echo -e '\nDone!'"
 		;;
 	'Linux')
 		eval "$(dircolors -b)"

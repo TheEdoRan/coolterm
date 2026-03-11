@@ -135,6 +135,7 @@ alias rndstr='openssl rand -hex 32'
 alias c='code'
 alias oc='opencode'
 alias lg='lazygit'
+alias cld='claude --dangerously-skip-permissions'
 
 # Don't expand these aliases
 GLOBALIAS_FILTER_VALUES=(ls la ll lla z)
@@ -183,7 +184,8 @@ path=(
 	"$JAVA_HOME/bin"
 	"$HOME/.local/bin"
 	"$HOME/.local/share/bin"
-	"$HOME/.opencode/bin"
+	"$HOME/.opencode/bin"(N)
+	"$HOME/.codeium/windsurf/bin"(N)
 	"$PYENV_ROOT/bin"(N)
 	"$BUN_INSTALL/bin"(N)
 	"$PNPM_HOME"(N)
@@ -246,4 +248,3 @@ fi
 
 # fnm init
 eval "$(fnm env --use-on-cd)"
-

@@ -132,10 +132,8 @@ alias gri='git rebase -i'
 alias ncu='pnpm dlx npm-check-updates -u'
 alias ytmp3="yt-dlp -f 'ba' -x --audio-format mp3"
 alias rndstr='openssl rand -hex 32'
-alias c='code'
-alias oc='opencode'
 alias lg='lazygit'
-alias cld='claude --dangerously-skip-permissions'
+alias c='claude --dangerously-skip-permissions'
 
 # Don't expand these aliases
 GLOBALIAS_FILTER_VALUES=(ls la ll lla z)
@@ -185,7 +183,6 @@ path=(
 	"$HOME/.local/bin"
 	"$HOME/.local/share/bin"
 	"$HOME/.opencode/bin"(N)
-	"$HOME/.codeium/windsurf/bin"(N)
 	"$PYENV_ROOT/bin"(N)
 	"$BUN_INSTALL/bin"(N)
 	"$PNPM_HOME"(N)

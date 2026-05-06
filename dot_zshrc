@@ -133,7 +133,8 @@ alias ncu='pnpm dlx npm-check-updates -u'
 alias ytmp3="yt-dlp -f 'ba' -x --audio-format mp3"
 alias rndstr='openssl rand -hex 32'
 alias lg='lazygit'
-alias c='claude --dangerously-skip-permissions'
+alias code='zed'
+alias cld='claude --dangerously-skip-permissions'
 
 # Don't expand these aliases
 GLOBALIAS_FILTER_VALUES=(ls la ll lla z)
@@ -165,9 +166,6 @@ bindkey  "^[[H"     beginning-of-line
 bindkey  "^[[F"     end-of-line
 bindkey  "^[[3~"    delete-char
 
-# java
-export JAVA_HOME=$(/usr/libexec/java_home -v 17)
-
 # bun
 export BUN_INSTALL="$HOME/.bun"
 
@@ -179,7 +177,6 @@ export PYENV_ROOT="$HOME/.pyenv"
 
 # Configure PATH
 path=(
-	"$JAVA_HOME/bin"
 	"$HOME/.local/bin"
 	"$HOME/.local/share/bin"
 	"$HOME/.opencode/bin"(N)

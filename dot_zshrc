@@ -42,6 +42,9 @@ case "$OS" in
 
 		alias mydns="scutil --dns | grep 'nameserver\[[0-9]*\]'"
 		alias update="brew update; brew upgrade; brew cleanup; npm update -g; echo -e '\nDone!'"
+
+		export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
+		export ANDROID_HOME="$HOME/Library/Android/sdk"
 		;;
 	'Linux')
 		eval "$(dircolors -b)"
@@ -211,6 +214,8 @@ path=(
 	"$HOME/.local/npm-global/bin"(N)
 	"$HOME/.local/pnpm-global"(N)
 	"$HOME/.local/pnpm-global/bin"(N)
+	"$ANDROID_HOME/emulator"(N)
+	"$ANDROID_HOME/platform-tools"(N)
 	"/snap/bin"(N)
 	"$path[@]"
 )

@@ -42,9 +42,11 @@ case "$OS" in
 
 		alias mydns="scutil --dns | grep 'nameserver\[[0-9]*\]'"
 		alias update="brew update; brew upgrade; brew cleanup; npm update -g; echo -e '\nDone!'"
+		alias sm="SwapMonitors"
 
 		export JAVA_HOME="/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
 		export ANDROID_HOME="$HOME/Library/Android/sdk"
+		export HOMEBREW_NO_REQUIRE_TAP_TRUST=1
 		;;
 	'Linux')
 		eval "$(dircolors -b)"
